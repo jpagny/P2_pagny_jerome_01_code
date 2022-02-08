@@ -23,7 +23,7 @@ public record ReadSymptomDataFromFile(String filepath) implements ISymptomReader
         List<String> listSymptoms = new ArrayList<>();
         Path path;
 
-        Objects.requireNonNull(filepath, "FilePath is empty");
+        Objects.requireNonNull(filepath, "FilePath must not be null !");
         path = Paths.get(filepath);
 
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
