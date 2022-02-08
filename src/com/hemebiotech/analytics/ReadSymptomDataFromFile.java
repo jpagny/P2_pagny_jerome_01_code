@@ -1,47 +1,55 @@
 package com.hemebiotech.analytics;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Simple brute force implementation
- *
+ * Listing of symptoms given by a file.
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
 
-	private String filepath;
-	
-	/**
-	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it, one per line
-	 */
-	public ReadSymptomDataFromFile (String filepath) {
-		this.filepath = filepath;
-	}
-	
-	@Override
-	public List<String> GetSymptoms() {
-		ArrayList<String> result = new ArrayList<String>();
-		
-		if (filepath != null) {
-			try {
-				BufferedReader reader = new BufferedReader (new FileReader(filepath));
-				String line = reader.readLine();
-				
-				while (line != null) {
-					result.add(line);
-					line = reader.readLine();
-				}
-				reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
-	}
+    private static final Logger LOGGER = Logger.getLogger("ReadSymptomDataFromFile");
+
+    private final String filepath;
+
+    public ReadSymptomDataFromFile(String theFilePath){
+        filepath = theFilePath;
+    }
+
+    @Override
+    public List<String> getSymptoms() {
+
+        List<String> listSymptoms = new ArrayList<>();
+        Path path;
+
+        Objects.requireNonNull(filepath, "FilePath must not be null !");
+        path = Paths.get(filepath);
+
+        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                listSymptoms.add(line);
+            }
+
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "There is a problem with this file : ");
+            ex.printStackTrace();
+            System.exit(1);
+
+        }
+
+        return listSymptoms;
+    }
 
 }
