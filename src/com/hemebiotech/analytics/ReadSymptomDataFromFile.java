@@ -13,9 +13,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public record ReadSymptomDataFromFile(String filepath) implements ISymptomReader {
+public class ReadSymptomDataFromFile implements ISymptomReader {
 
     private static final Logger LOGGER = Logger.getLogger("ReadSymptomDataFromFile");
+
+    private final String filepath;
+
+    public ReadSymptomDataFromFile(String theFilePath){
+        filepath = theFilePath;
+    }
 
     @Override
     public List<String> getSymptoms() {
