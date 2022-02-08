@@ -1,43 +1,73 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
+/**
+ * Program permit to describe the symptom as well as the number of occurrences.
+ */
 public class AnalyticsCounter {
-	private static int headacheCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
-	
-	public static void main(String args[]) throws Exception {
-		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
 
-		int i = 0;	// set i to 0
-		int headCount = 0;	// counts headaches
-		while (line != null) {
-			i++;	// increment i
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
+    private final String filePath;
+    private SortedMap<String, Integer> myMapSymptomsToWatch;
+    private List<String> listSymptomData;
 
-			line = reader.readLine();	// get another symptom
-		}
-		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
-	}
+    public AnalyticsCounter(String theFilePath) {
+        filePath = theFilePath;
+    }
+
+    /**
+     * Run AnalyticsCounter program :
+     * <p>
+     *     <ul>
+     *         <li>01 - initMapSymptomsToWatch</li>
+     *         <li>02 - fetchDataFromFile</li>
+     *         <li>03 - countSymptom</li>
+     *         <li>04 - createReport</li>
+     *     </ul>
+     * </p>
+     */
+    public void runAnalyticsCounter() {
+        initMapSymptomsToWatch();
+        fetchDataFromFile();
+        countSymptom();
+        createReport();
+    }
+
+    /**
+     * Initialize list of symptoms to watch
+     */
+    private void initMapSymptomsToWatch() {
+        myMapSymptomsToWatch = new TreeMap<>();
+        myMapSymptomsToWatch.put("headache", 0);
+        myMapSymptomsToWatch.put("rash", 0);
+        myMapSymptomsToWatch.put("dilated pupils", 0);
+    }
+
+    /**
+     * Get all symptoms from a file
+     */
+    private void fetchDataFromFile() {
+        ReadSymptomDataFromFile listSymptomDataFromFile = new ReadSymptomDataFromFile(filePath);
+        listSymptomData = listSymptomDataFromFile.getSymptoms();
+    }
+
+    /**
+     * Count symptoms as well with the number of occurrences
+     */
+    private void countSymptom() {
+        ISymptomCounter symptomCounter = new CountSymptom(listSymptomData, myMapSymptomsToWatch);
+        myMapSymptomsToWatch = symptomCounter.countSymptom();
+    }
+
+    /**
+     * Generate an output file with list of symptoms with the number of occurrences
+     */
+    private void createReport() {
+        ISymptomWriter symptomWriter = new WriteSymptomDataReport(myMapSymptomsToWatch);
+        symptomWriter.writeReport();
+    }
+
 }
+
