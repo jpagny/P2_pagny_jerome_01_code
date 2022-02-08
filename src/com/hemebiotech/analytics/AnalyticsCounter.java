@@ -56,5 +56,26 @@ public class AnalyticsCounter {
 
     }
 
+    // initialize list of symptoms to watch
+    private void initMapSymptomToWatch(){
+
+    }
+
+    // fetch all data from file
+    private void fetchDataFromFile(String file){
+
+    }
+
+    // count symptom with all data from file / symptoms to watch
+    private void countSymptom(){
+
+    }
+
+    // build result.out
+    private void createReport(){
+
+    }
+
+
 }
 
