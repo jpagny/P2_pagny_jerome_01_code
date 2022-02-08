@@ -1,86 +1,47 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 import java.util.TreeMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AnalyticsCounter {
 
-    private static final int HEADACHE_COUNT = 0;
-    private static int rashCount = 0;
-    private static int pupilCount = 0;
-
+    private final String filePath;
     private TreeMap<String, Integer> myMapSymptomsToWatch;
+    private List<String> listSymptomData;
+    private static final Logger LOGGER = Logger.getLogger("AnalyticsCounter");
+
+    public AnalyticsCounter(String theFilePath) {
+        filePath = theFilePath;
+    }
+
+    public void runAnalyticsCounter() {
+        initMapSymptomsToWatch();
+        fetchDataFromFile();
+    }
 
     // initialize list of symptoms to watch
-    private void initMapSymptomsToWatch(){
+    private void initMapSymptomsToWatch() {
         myMapSymptomsToWatch = new TreeMap<>();
         myMapSymptomsToWatch.put("headache", 0);
         myMapSymptomsToWatch.put("rash", 0);
         myMapSymptomsToWatch.put("dilated pupils", 0);
     }
 
-    public static void main(String[] args) throws Exception {
-
-        Logger log = Logger.getLogger("AnalyticsCounter");
-        Path path = Paths.get("symptoms.txt");
-
-        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-
-            String line = reader.readLine();
-            int headCount = 0;
-
-            while (line != null) {
-
-                log.log(Level.INFO, "symptom from file: {0}", line);
-
-                if (line.equals("headache")) {
-                    headCount++;
-                    log.log(Level.INFO, "number of headaches: {0}", headCount);
-
-                } else if (line.equals("rush")) {
-                    rashCount++;
-
-                } else if (line.contains("pupils")) {
-                    pupilCount++;
-
-                }
-
-                line = reader.readLine();
-            }
-
-            try (FileWriter writer = new FileWriter("result.out")) {
-                writer.write("headache: " + HEADACHE_COUNT + "\n");
-                writer.write("rash: " + rashCount + "\n");
-                writer.write("dilated pupils: " + pupilCount + "\n");
-            }
-
-
-        }
-
-
-    }
-
-
-
     // fetch all data from file
-    private void fetchDataFromFile(String file){
-
+    private void fetchDataFromFile() {
+        ReadSymptomDataFromFile listSymptomDataFromFile = new ReadSymptomDataFromFile(filePath);
+        listSymptomData = listSymptomDataFromFile.getSymptoms();
     }
+
 
     // count symptom with all data from file / symptoms to watch
-    private void countSymptom(){
+    private void countSymptom() {
 
     }
 
     // build result.out
-    private void createReport(){
+    private void createReport() {
 
     }
 
