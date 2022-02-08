@@ -1,42 +1,60 @@
 package com.hemebiotech.analytics;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AnalyticsCounter {
-	private static int headacheCount = 0;
-	private static int rashCount = 0;
-	private static int pupilCount = 0;
-	
-	public static void main(String args[]) throws Exception {
 
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
+    private static final int HEADACHE_COUNT = 0;
+    private static int rashCount = 0;
+    private static int pupilCount = 0;
 
-		int i = 0;
-		int headCount = 0;
-		while (line != null) {
-			i++;
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
+    public static void main(String[] args) throws Exception {
 
-			line = reader.readLine();
-		}
-		
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
-	}
+        Logger log = Logger.getLogger("AnalyticsCounter");
+        Path path = Paths.get("symptoms.txt");
+
+        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+
+            String line = reader.readLine();
+            int headCount = 0;
+
+            while (line != null) {
+
+                log.log(Level.INFO, "symptom from file: {0}", line);
+
+                if (line.equals("headache")) {
+                    headCount++;
+                    log.log(Level.INFO, "number of headaches: {0}", headCount);
+
+                } else if (line.equals("rush")) {
+                    rashCount++;
+
+                } else if (line.contains("pupils")) {
+                    pupilCount++;
+
+                }
+
+                line = reader.readLine();
+            }
+
+            try (FileWriter writer = new FileWriter("result.out")) {
+                writer.write("headache: " + HEADACHE_COUNT + "\n");
+                writer.write("rash: " + rashCount + "\n");
+                writer.write("dilated pupils: " + pupilCount + "\n");
+            }
+
+
+        }
+
+
+    }
+
 }
+
