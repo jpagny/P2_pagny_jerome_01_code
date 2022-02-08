@@ -1,1 +1,1 @@
-# P2_pagny_jerome_01_code
+Sample project for OpenClassroom's fundamentals of Java
