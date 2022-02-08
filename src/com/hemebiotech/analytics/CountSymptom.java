@@ -1,7 +1,7 @@
 package com.hemebiotech.analytics;
 
 import java.util.List;
-import java.util.TreeMap;
+import java.util.SortedMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,15 +13,15 @@ public class CountSymptom implements ISymptomCounter {
     private static final Logger LOGGER = Logger.getLogger("CountSymptom");
 
     private final List<String> listSymptomData;
-    private final TreeMap<String, Integer> mapSymptomsToWatch;
+    private final SortedMap<String, Integer> mapSymptomsToWatch;
 
-    public CountSymptom(List<String> theListSymptomData, TreeMap<String, Integer> theMapSymptomsToWatch) {
+    public CountSymptom(List<String> theListSymptomData, SortedMap<String, Integer> theMapSymptomsToWatch) {
         listSymptomData = theListSymptomData;
         mapSymptomsToWatch = theMapSymptomsToWatch;
     }
 
     @Override
-    public TreeMap<String, Integer> countSymptom() {
+    public SortedMap<String, Integer> countSymptom() {
         for (String theSymptom : listSymptomData) {
             LOGGER.log(Level.INFO, "symptom from file : {0} ", theSymptom);
             if (mapSymptomsToWatch.containsKey(theSymptom)) {
