@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public record ReadSymptomDataFromFile(String filepath) implements ISymptomReader {
 
-    static Logger logger = Logger.getLogger("ReadSymptomDataFromFile");
+    private static final Logger LOGGER = Logger.getLogger("ReadSymptomDataFromFile");
 
     @Override
     public List<String> getSymptoms() {
@@ -35,7 +35,7 @@ public record ReadSymptomDataFromFile(String filepath) implements ISymptomReader
             }
 
         } catch (IOException ex) {
-            logger.log(Level.SEVERE, "There is a problem with this file : ");
+            LOGGER.log(Level.SEVERE, "There is a problem with this file : ");
             ex.printStackTrace();
             System.exit(1);
 
