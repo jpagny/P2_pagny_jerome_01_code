@@ -1,49 +1,48 @@
 package com.hemebiotech.analytics;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Simple brute force implementation
- *
  */
-public class ReadSymptomDataFromFile implements ISymptomReader {
+public record ReadSymptomDataFromFile(String filepath) implements ISymptomReader {
 
-	private final String filepath;
-	
-	/**
-	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it, one per line
-	 */
-	public ReadSymptomDataFromFile (String filepath) {
-		this.filepath = filepath;
-	}
-	
-	@Override
-	public List<String> getSymptoms() {
+    static Logger logger = Logger.getLogger("AnalyticsCounter");
 
-		ArrayList<String> result = new ArrayList<>();
-		
-		if (filepath != null) {
+    @Override
+    public List<String> getSymptoms() {
 
-			try (BufferedReader reader = new BufferedReader (new FileReader(filepath))){
+        ArrayList<String> listSymptoms = new ArrayList<>();
+        Path path;
 
-				String line = reader.readLine();
-				
-				while (line != null) {
-					result.add(line);
-					line = reader.readLine();
-				}
+        if (filepath != null) {
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
-	}
+            path = Paths.get(filepath);
+
+            try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    listSymptoms.add(line);
+                }
+
+            } catch (IOException ex) {
+                logger.log(Level.SEVERE, ex.getMessage());
+
+            }
+        }
+
+        return listSymptoms;
+    }
 
 }
