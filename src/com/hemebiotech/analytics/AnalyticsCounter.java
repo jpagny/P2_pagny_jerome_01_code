@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,6 +15,16 @@ public class AnalyticsCounter {
     private static final int HEADACHE_COUNT = 0;
     private static int rashCount = 0;
     private static int pupilCount = 0;
+
+    private TreeMap<String, Integer> myMapSymptomsToWatch;
+
+    // initialize list of symptoms to watch
+    private void initMapSymptomsToWatch(){
+        myMapSymptomsToWatch = new TreeMap<>();
+        myMapSymptomsToWatch.put("headache", 0);
+        myMapSymptomsToWatch.put("rash", 0);
+        myMapSymptomsToWatch.put("dilated pupils", 0);
+    }
 
     public static void main(String[] args) throws Exception {
 
@@ -56,10 +67,7 @@ public class AnalyticsCounter {
 
     }
 
-    // initialize list of symptoms to watch
-    private void initMapSymptomToWatch(){
 
-    }
 
     // fetch all data from file
     private void fetchDataFromFile(String file){
