@@ -6,6 +6,9 @@ import java.util.SortedMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Create an output file with list of symptoms sorted with the number of occurrences.
+ */
 public class WriteSymptomDataReport implements ISymptomWriter {
 
     private static final Logger LOGGER = Logger.getLogger("WriteSymptomDataReport");

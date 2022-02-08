@@ -5,6 +5,9 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Count symptom given by a file and a list of symptoms to watch.
+ */
 public class CountSymptom implements ISymptomCounter {
 
     private static final Logger LOGGER = Logger.getLogger("CountSymptom");

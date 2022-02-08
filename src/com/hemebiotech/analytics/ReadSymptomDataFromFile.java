@@ -12,7 +12,9 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * Listing of symptoms given by a file.
+ */
 public class ReadSymptomDataFromFile implements ISymptomReader {
 
     private static final Logger LOGGER = Logger.getLogger("ReadSymptomDataFromFile");
