@@ -23,7 +23,7 @@ public class WriteSymptomDataReport implements ISymptomWriter {
     public void writeReport() {
         try (FileWriter writer = new FileWriter("result.out")) {
             for (Map.Entry<String, Integer> entry : mapSymptomsToWatch.entrySet()) {
-                writer.write(entry.getKey() + " : " + entry.getValue() + "\n");
+                writer.write(entry.getKey() + ", " + entry.getValue() + "\n");
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception : {0}", ex.getMessage());

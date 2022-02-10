@@ -12,6 +12,7 @@ public class AnalyticsCounter {
     private final String filePath;
     private SortedMap<String, Integer> myMapSymptomsToWatch;
     private List<String> listSymptomData;
+    private ISymptomReader listSymptomDataFromFile;
 
     public AnalyticsCounter(String theFilePath) {
         filePath = theFilePath;
@@ -21,36 +22,34 @@ public class AnalyticsCounter {
      * Run AnalyticsCounter program :
      * <p>
      *     <ul>
-     *         <li>01 - initMapSymptomsToWatch</li>
-     *         <li>02 - fetchDataFromFile</li>
+     *         <li>01 - fetchDataFromFile</li>
+     *         <li>02 - loadMapSymptomsToWatch</li>
      *         <li>03 - countSymptom</li>
      *         <li>04 - createReport</li>
      *     </ul>
      * </p>
      */
     public void runAnalyticsCounter() {
-        initMapSymptomsToWatch();
         fetchDataFromFile();
+        loadDataToMapSymptomsToWatch();
         countSymptom();
         createReport();
-    }
-
-    /**
-     * Initialize list of symptoms to watch
-     */
-    private void initMapSymptomsToWatch() {
-        myMapSymptomsToWatch = new TreeMap<>();
-        myMapSymptomsToWatch.put("headache", 0);
-        myMapSymptomsToWatch.put("rash", 0);
-        myMapSymptomsToWatch.put("dilated pupils", 0);
     }
 
     /**
      * Get all symptoms from a file
      */
     private void fetchDataFromFile() {
-        ReadSymptomDataFromFile listSymptomDataFromFile = new ReadSymptomDataFromFile(filePath);
+        listSymptomDataFromFile = new ReadSymptomDataFromFile(filePath);
         listSymptomData = listSymptomDataFromFile.getSymptoms();
+    }
+
+    /**
+     * Load list of symptoms to watch
+     */
+    private void loadDataToMapSymptomsToWatch() {
+        myMapSymptomsToWatch = new TreeMap<>();
+        listSymptomDataFromFile.getSymptoms().forEach(symptom -> myMapSymptomsToWatch.put(symptom, 0));
     }
 
     /**

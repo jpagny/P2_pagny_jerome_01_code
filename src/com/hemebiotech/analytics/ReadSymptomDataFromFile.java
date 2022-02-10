@@ -21,7 +21,8 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 
     private final String filepath;
 
-    public ReadSymptomDataFromFile(String theFilePath){
+    public ReadSymptomDataFromFile(String theFilePath) {
+        Objects.requireNonNull(theFilePath, "FilePath must not be null !");
         filepath = theFilePath;
     }
 
@@ -31,7 +32,6 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
         List<String> listSymptoms = new ArrayList<>();
         Path path;
 
-        Objects.requireNonNull(filepath, "FilePath must not be null !");
         path = Paths.get(filepath);
 
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
@@ -43,7 +43,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
             }
 
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "There is a problem with this file : ");
+            LOGGER.log(Level.SEVERE, "There is an issue with this file : ");
             ex.printStackTrace();
             System.exit(1);
 
