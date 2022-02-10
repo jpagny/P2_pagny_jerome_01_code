@@ -20,14 +20,12 @@ public class AnalyticsCounter {
 
     /**
      * Run AnalyticsCounter program :
-     * <p>
-     *     <ul>
-     *         <li>01 - fetchDataFromFile</li>
-     *         <li>02 - loadMapSymptomsToWatch</li>
-     *         <li>03 - countSymptom</li>
-     *         <li>04 - createReport</li>
-     *     </ul>
-     * </p>
+     *    <ul>
+     *        <li>01 - fetchDataFromFile</li>
+     *        <li>02 - loadMapSymptomsToWatch</li>
+     *        <li>03 - countSymptom</li>
+     *        <li>04 - createReport</li>
+     *    </ul>
      */
     public void runAnalyticsCounter() {
         fetchDataFromFile();
