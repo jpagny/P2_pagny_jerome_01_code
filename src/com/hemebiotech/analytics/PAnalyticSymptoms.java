@@ -10,10 +10,8 @@ public class PAnalyticSymptoms {
      * @param args none
      */
     public static void main(String[] args) {
-
         AnalyticsCounter analyticSymptoms = new AnalyticsCounter("symptoms.txt");
         analyticSymptoms.runAnalyticsCounter();
-
     }
 
 }
